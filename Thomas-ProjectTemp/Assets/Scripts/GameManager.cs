@@ -33,26 +33,26 @@ public class GameManager : MonoBehaviour
     }//end Awake()
     #endregion
 
-    public static int playLives;
-    public static int score;
+    public static int playLives; //number of lives for player
+    public static int score; //score value
 
     [Header("GENERAL SETTINGS")]
     public string gameTitle = "Untitled Game";
-    public string gameCredits = "Made by Dyllan Thomas";
+    public string gameCredits = "Made by Dyllan Thomas"; //creators
     public string copyrightDate = "Copyright " + thisDay;
 
     [Space(10)]
 
-    public TMP_Text titleDisplay;
-    public TMP_Text creditsDisplay;
-    public TMP_Text copyrightDisplay;
+    public TMP_Text titleDisplay; //text display for title
+    public TMP_Text creditsDisplay; //text display for credits
+    public TMP_Text copyrightDisplay; //text display for cpoyright
 
 
     [Header("GAME SETTINGS")]
-    public GameObject player;
-    public int defaultScore = 0;
-    public int defaultLives = 3;
-    public bool canBeatLevel = false;
+    public GameObject player; //player object
+    public int defaultScore = 0; //default score
+    public int defaultLives = 3; //default lives
+    public bool canBeatLevel = false; //
     public int beatLevelScore;
     public bool timedLevel = false;
     public float startTime = 5.0f;
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     /**** Private Variables ****/
     private float currentTime;
     private bool gameStarted = false; //tests if game has started
-    private static bool rePlay = false;
+    private static bool replay = false;
     private static string thisDay = System.DateTime.Now.ToString("yyyy"); //todays date as a string
 
 
@@ -107,7 +107,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HideMenu();
+        MenuCanvas.SetActive(true);
+        FooterCanvas.SetActive(false);
+        EndScreenCanvas.SetActive(false);
+        HUDCanvas.SetActive(false);
         Scene currentLevel = SceneManager.GetActiveScene();
         playAgainLevelToLoad = currentLevel.name;
 
@@ -138,9 +141,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void ResartGame()
+    public void Reset()
     {
-
+        playLives = defaultLives;
+        score = defaultScore;
     }
 
     public void HideMenu()
@@ -172,13 +176,13 @@ public class GameManager : MonoBehaviour
             timerTitleDisplay.text = timerTitle;
         }
         
-        if (score != 0)
+        if (beatLevelScore >= 0)
         {
             scoreValueDisplay.text = score.ToString();
             scoreTitleDisplay.text = scoreTitle;
         }
 
-        if (defaultLives != 0)
+        if (defaultLives >= 0)
         {
             livesValueDisplay.text = defaultLives.ToString();
             livesTitleDisplay.text = livesTitle;
